@@ -1,0 +1,13 @@
+name = "boot"
+uuid = "e828268c-528f-4665-aa86-3fb3609fd599"
+authors = ["Micha Yanis <yanismicha02@gmail.com> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.10"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
