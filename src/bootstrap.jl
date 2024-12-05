@@ -36,4 +36,12 @@ function bootstrap(data::DataFrame,model::DecisionTreeClassifier,score::Function
     return boot_loss
 end
 
-
+function bootstrap(data::AbstractMatrix, statistic::Function, B::Int=100 ; kwargs...)
+    out = Array{Any, 1}(undef,B)
+    nb_rows = size(data)[1]
+    Threads.@threads for idx in 1:B
+        boot_matrix = data[rand(1:nb_rows, nb_rows),:]
+        out[idx] = statistic(boot_matrix,kwargs...)
+    end
+    return out
+end
