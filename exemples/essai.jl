@@ -3,6 +3,7 @@ using Statistics
 using DataFrames
 #using StatisticalMeasures
 using MLJ
+using Random
 ################## tests de mes fonctions ################
 bonjour("yanis")
 data = randn(100);
@@ -42,6 +43,3 @@ yhat = predict(mach, X[test,:]);
 log_loss(yhat,y[test])
 evaluate!(mach, resampling=Holdout(fraction_train=0.75),measures=[log_loss, accuracy],verbosity=0)
 accuracy(yhat,y[test])
-
-
-

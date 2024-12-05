@@ -36,4 +36,12 @@ function bootstrap(data::DataFrame,model::DecisionTreeClassifier,score::Function
     return boot_loss
 end
 
-
+function bootstrap(data::AbstractMatrix, statistic::Function, B::Int=100)
+    out = Array{Any, 1}(undef,B)
+    sampling_data = reshape(data, (1, :))
+    for idx in 1:B
+        boot_matrix = sampling_data[rand(1:length(sampling_data), length(sampling_data))]
+        out[idx] = statistic(reshape(boot_matrix, size(data)))
+    end
+    return out
+end
