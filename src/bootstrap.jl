@@ -21,8 +21,8 @@ function bootstrap(data::AbstractVector,B::Int = 100)
 end
 
 
-function bootstrap(data::DataFrame,model::DecisionTreeClassifier,score::Function,B::Int =100)
-    y, X = unpack(data, ==(:target))
+function bootstrap(data::DataFrame,model::DecisionTreeClassifier,score::Function;target::Symbol = :target,B::Int =100)
+    y, X = unpack(data, ==(target))
     n = length(y)
     boot_score = Vector(undef, B)
     mach_orig = machine(model, X, y)
@@ -38,7 +38,7 @@ function bootstrap(data::DataFrame,model::DecisionTreeClassifier,score::Function
 end
 
 
-function bootstrap(data::DataFrame,machine::Machine,score::Function,B::Int =100)
+function bootstrap(data::DataFrame,machine::Machine,score::Function;target::Symbol = :target,B::Int =100)
     y, X = unpack(data, ==(:target))
     n = length(y)
     boot_score = Vector(undef, B)

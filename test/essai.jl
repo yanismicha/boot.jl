@@ -23,6 +23,3 @@ end
 
 iris = load_iris() |> DataFrame
 tmp,tmp2 = test_boot_MLJ(iris,score = logloss2)
-tmp2
-accuracy(yhat,y)
-logloss
