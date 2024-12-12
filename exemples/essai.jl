@@ -45,7 +45,7 @@ log_loss(yhat,y[test])
 evaluate!(mach, resampling=Holdout(fraction_train=0.75),measures=[log_loss, accuracy],verbosity=0)
 accuracy(yhat,y[test])
 
-function bootstrap(data::AbstractMatrix, statistic::Function, B::Int=100 ; kwargs...)
+function bootstrap1(data::AbstractMatrix, statistic::Function, B::Int=100 ; kwargs...)
     out = Array{Any, 1}(undef,B)
     nb_rows = size(data)[1]
     Threads.@threads for idx in 1:B
@@ -55,7 +55,10 @@ function bootstrap(data::AbstractMatrix, statistic::Function, B::Int=100 ; kwarg
     return out
 end
 
-print(bootstrap(mat, sum, 10, a=1, b=2))
+
+mat = [1 2 ; 3 4 ; 5 6]
+
+print(bootstrap1(mat, sum, 10, a=1, b=2))
 
 function f(data, a=4,b=5)
     n_col = size(data)[2]
@@ -71,7 +74,6 @@ function f(data, a=4,b=5)
     return out
 end
 
-mat = [1 2 ; 3 4 ; 5 6]
 size(mat)
 out = bootstrap(mat, f, 10 , a=1,b=2)
 print(out)

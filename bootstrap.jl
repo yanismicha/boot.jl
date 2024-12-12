@@ -1,4 +1,3 @@
-# renvoie un vecteur de  paramètre statistic bootstrapé de taille B (nombre de boostrap)
 function bootstrap(data::AbstractVector, statistic::Function, B::Int=1000)
     n = length(data)
     boot_stats = Vector{Any}(undef, B)
@@ -10,7 +9,6 @@ function bootstrap(data::AbstractVector, statistic::Function, B::Int=1000)
     return boot_stats
 end
 
-# renvoie une matrice de B boostrap de notre data
 function bootstrap(data::AbstractVector,B::Int = 100)
     n = length(data)
     boot_stats = Matrix(undef,B,B)
@@ -20,11 +18,10 @@ function bootstrap(data::AbstractVector,B::Int = 100)
     return boot_stats
 end
 
-
-function bootstrap(data::DataFrame,model::DecisionTreeClassifier,score::Function;target::Symbol = :target,B::Int =100)
-    y, X = unpack(data, ==(target))
+function bootstrap(data::DataFrame,model::DecisionTreeClassifier,score::Function,B::Int =100)
+    y, X = unpack(data, ==(:target))
     n = length(y)
-    boot_score = Vector(undef, B)
+    boot_loss = Vector(undef, B)
     mach_orig = machine(model, X, y)
     for b in 1:B
         mach = deepcopy(mach_orig)
@@ -32,36 +29,23 @@ function bootstrap(data::DataFrame,model::DecisionTreeClassifier,score::Function
         out_of_bag = setdiff(1:n, idx)
         fit!(mach, rows= idx,verbosity = 0);
         yhat = predict(mach, X[out_of_bag,:]);
-        boot_score[b] = score(yhat,y[out_of_bag])
+        boot_loss[b] = score(yhat,y[out_of_bag])
     end
-    return boot_score
+    return boot_loss
 end
 
-function bootstrap(data::DataFrame,machine::Machine,score::Function;target::Symbol = :target,B::Int =100)
+
+function bootstrap(data::DataFrame,machine::Machine,score::Function,B::Int =100)
     y, X = unpack(data, ==(:target))
     n = length(y)
-    boot_score = Vector(undef, B)
+    boot_loss = Vector(undef, B)
     for b in 1:B
         idx = rand(1:n,n)
         out_of_bag = setdiff(1:n, idx)
         mach = deepcopy(machine)
         fit!(mach, rows= idx,verbosity = 0);
         yhat = predict(mach, X[out_of_bag,:]);
-        boot_score[b] = score(yhat,y[out_of_bag])
+        boot_loss[b] = score(yhat,y[out_of_bag])
     end
-    return boot_score
-end
-
-
-"""
-test
-"""
-function bootstrap(data::AbstractMatrix, statistic::Function, B::Int=100 ; kwargs...)
-    out = Array{Any, 1}(undef,B)
-    nb_rows = size(data)[1]
-    Threads.@threads for idx in 1:B
-        boot_matrix = data[rand(1:nb_rows, nb_rows),:]
-        out[idx] = statistic(boot_matrix,kwargs...)
-    end
-    return out
+    return boot_loss
 end
