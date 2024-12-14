@@ -1,4 +1,4 @@
-using boot
+using Boot
 using DataFrames
 using MLJ
 

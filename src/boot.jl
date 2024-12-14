@@ -1,4 +1,4 @@
-module boot
+module Boot
 using Random,MLJ,DataFrames,MLJDecisionTreeInterface,Base.Threads
 export bonjour,bootstrap,randstring,acc
 
