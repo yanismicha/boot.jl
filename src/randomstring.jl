@@ -22,6 +22,15 @@ end
 =#
 
 # Default case: randstring() -> calls randstring(10)
+"""
+    randstring()
+
+Returns a random string of 10 characters.
+Is the default case of the randstring function. Calls randstring(10) from the Random package.
+
+# Returns:
+    - Vector of 10 random characters.
+"""
 function randstring()
     return Random.randstring(10)
 end
