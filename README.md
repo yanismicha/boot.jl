@@ -4,6 +4,8 @@
 
 [![Logo
 UGA](assets/logo-uga.png)](https://www.univ-grenoble-alpes.fr/)
+[![Logo
+julia](assets/logo-jl.svg)](https://docs.julialang.org/en/v1/)
 
 L'objectif de ce package est de permettre l'utilisation de méthodes de bootstrap.
 Elle permet notamment de bootstrap n'importe quel Matrice ou vecteur, mais également d'utiliser la particularité out-of-bag de ce dernier afin de tester les performances d'une machine MLJ.  
